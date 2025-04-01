@@ -146,10 +146,15 @@ if __name__ == "__main__":
     # Download ImageNet classes file if not exists
     import urllib.request
     import os
-    
+
     if not os.path.exists('imagenet_classes.txt'):
-        url = "https://raw.githubusercontent.com/anishathalye/imagenet-simple-labels/master/imagenet-simple-labels.txt"
+        url = "https://gist.githubusercontent.com/yrevar/942d3a0ac09ec9e5eb3a/raw/238f720ff059c1f82f368259d1ca4ffa5dd8f9f5/imagenet1000_clsidx_to_labels.txt"
         urllib.request.urlretrieve(url, 'imagenet_classes.txt')
+        # Simplify the file (remove indices)
+        with open('imagenet_classes.txt', 'r') as f:
+         labels = eval(f.read())
+        with open('imagenet_classes.txt', 'w') as f:
+         f.write('\n'.join(labels.values()))
     
     root = tk.Tk()
     app = ObjectRecognitionApp(root)
